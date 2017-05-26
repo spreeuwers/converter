@@ -15,13 +15,31 @@ export class Converter{
 
     convert() {
         console.log('converting' + this.src);
-        fs.readdir(this.src, (err, files) => {
-            files.forEach(file => {
-                    console.log(file);
+        walk(this.src);
+        // fs.readdir(this.src, (err, files) => {
+        //     files.forEach(file => {
+        //             console.log(file);
+        //         }
+        //     );
+        // });
+    }
+}
+
+function walk(file: string){
+    //console.log(file, fs.lstatSync(file).isDirectory());
+    let isFolder = fs.lstatSync(file).isDirectory();
+    if(isFolder){
+        console.log('d:  ' + file);
+        fs.readdir(file, (err, files) => {
+            files.forEach(f => {
+                   walk(file + '/' + f);
                 }
             );
         });
+    } else {
+        console.log('f:  ' + file);
     }
+
 }
 
 new Converter().convert();

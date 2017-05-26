@@ -11,14 +11,31 @@ var Converter = (function () {
     }
     Converter.prototype.convert = function () {
         console.log('converting' + this.src);
-        fs.readdir(this.src, function (err, files) {
-            files.forEach(function (file) {
-                console.log(file);
-            });
-        });
+        walk(this.src);
+        // fs.readdir(this.src, (err, files) => {
+        //     files.forEach(file => {
+        //             console.log(file);
+        //         }
+        //     );
+        // });
     };
     return Converter;
 }());
 exports.Converter = Converter;
+function walk(file) {
+    //console.log(file, fs.lstatSync(file).isDirectory());
+    var isFolder = fs.lstatSync(file).isDirectory();
+    if (isFolder) {
+        console.log('d:  ' + file);
+        fs.readdir(file, function (err, files) {
+            files.forEach(function (f) {
+                walk(file + '/' + f);
+            });
+        });
+    }
+    else {
+        console.log('f:  ' + file);
+    }
+}
 new Converter().convert();
 //# sourceMappingURL=convert.js.map
