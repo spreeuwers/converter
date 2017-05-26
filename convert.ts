@@ -58,7 +58,7 @@ function walk(file: string){
                       let imp = imports.shift();
                       let mod = imports.shift();
                       mod = mod.split('.').join('/');
-                      line= `import {${imp}} from ${mod};`;
+                      line= `import {${imp}} from '${mod}';`;
                       //console.log(line + ' imports:' + imports);
                   }
                   return line;
