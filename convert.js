@@ -30,7 +30,9 @@ function walk(file) {
         if (/\.ts$/.test(file)) {
             console.log('f:  ' + file);
             var contents = fs.readFileSync(file).toString();
-            console.log(contents);
+            var lines = contents.split(/\n/);
+            var refs = lines.filter(function (f) { return /^\/\//.test(file); });
+            console.log(refs);
         }
     }
 }

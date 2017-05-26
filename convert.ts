@@ -15,6 +15,10 @@ export class Converter{
 
     convert() {
         console.log('converting' + this.src);
+        ////let t = 'import Entity = app.common.domein.model.Entity;';
+        //////let imports = t.match(/^import\s+(.*)\s+=\s+(.*);/);
+        //imports.shift();
+        //console.log('imports:' + imports);
         walk(this.src);
 
     }
@@ -33,10 +37,38 @@ function walk(file: string){
         });
     } else {
 
-        if (/\.ts$/.test(file)){
+        if (/\.ts$/.test(file) && !/converted\.ts$/.test(file)){
             console.log('f:  ' + file);
-            var contents = fs.readFileSync(file).toString();
-            console.log(contents);
+            var contents = fs.readFileSync(file).toString().trim();
+            let lines = contents.split(/\n/);
+            let imports = lines.filter(f=> /^import/.test(f) );
+            //import Entity = app.common.domein.model.Entity;
+            let refs = lines.filter(f=> /^\/\/\/<reference/.test(f) );
+            lines = lines.filter(f=> !/^\/\/\/<reference/.test(f) );
+            lines = lines.filter(f=>!/^module\s/.test(f));
+
+            lines = lines.map(
+                (line) => {
+                  //let leftRight = line.split('=')
+                  line = line.replace('    ','');
+                  //let t = 'import Entity = app.common.domein.model.Entity;';
+                  let imports = line.match(/import\s+(.*)\s+=\s+(.*);/);
+                  if (imports && imports.length === 3){
+                      imports.shift();
+                      let imp = imports.shift();
+                      let mod = imports.shift();
+                      mod = mod.split('.').join('/');
+                      line= `import {${imp}} from ${mod};`;
+                      //console.log(line + ' imports:' + imports);
+                  }
+                  return line;
+
+              }
+            );
+
+            let converted =lines.join('\n').replace(/\}$/,'');
+            console.log(converted);
+            fs.writeFileSync(file.replace(/\.ts$/,'.converted.ts'),converted);
         }
 
     }
