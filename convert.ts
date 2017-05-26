@@ -15,23 +15,19 @@ export class Converter{
 
     convert() {
         console.log('converting' + this.src);
-        ////let t = 'import Entity = app.common.domein.model.Entity;';
-        //////let imports = t.match(/^import\s+(.*)\s+=\s+(.*);/);
-        //imports.shift();
-        //console.log('imports:' + imports);
         walk(this.src);
 
     }
 }
 
-function walk(file: string){
-
+function walk(file: string, prefix?: string){
+    let upPath = (prefix) ? prefix + '../': '';
     let isFolder = fs.lstatSync(file).isDirectory();
     if(isFolder){
         console.log('d:  ' + file);
         fs.readdir(file, (err, files) => {
             files.forEach(f => {
-                   walk(file + '/' + f);
+                   walk(file + '/' + f, upPath);
                 }
             );
         });
@@ -57,7 +53,7 @@ function walk(file: string){
                       imports.shift();
                       let imp = imports.shift();
                       let mod = imports.shift();
-                      mod = mod.split('.').join('/');
+                      mod = upPath + mod.split('.').join('/');
                       line= `import {${imp}} from '${mod}';`;
                       //console.log(line + ' imports:' + imports);
                   }
@@ -67,7 +63,7 @@ function walk(file: string){
             );
 
             let converted =lines.join('\n').replace(/\}$/,'');
-            console.log(converted);
+            //console.log(converted);
             fs.writeFileSync(file.replace(/\.ts$/,'.converted.ts'),converted);
         }
 

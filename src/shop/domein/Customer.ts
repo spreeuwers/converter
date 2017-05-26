@@ -5,7 +5,7 @@
 
 module app.domein.customers{
 
-    import Entity = app.common.domein.model.Entity;
+    import Entity = common.domein.model.Entity;
 
     export class Customer extends Entity {
         private name = '';
