@@ -21,7 +21,7 @@ export class Converter{
 }
 
 function walk(file: string){
-    //console.log(file, fs.lstatSync(file).isDirectory());
+
     let isFolder = fs.lstatSync(file).isDirectory();
     if(isFolder){
         console.log('d:  ' + file);
@@ -32,7 +32,13 @@ function walk(file: string){
             );
         });
     } else {
-        console.log('f:  ' + file);
+
+        if (/\.ts$/.test(file)){
+            console.log('f:  ' + file);
+            var contents = fs.readFileSync(file).toString();
+            console.log(contents);
+        }
+
     }
 
 }

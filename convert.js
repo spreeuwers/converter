@@ -17,7 +17,6 @@ var Converter = (function () {
 }());
 exports.Converter = Converter;
 function walk(file) {
-    //console.log(file, fs.lstatSync(file).isDirectory());
     var isFolder = fs.lstatSync(file).isDirectory();
     if (isFolder) {
         console.log('d:  ' + file);
@@ -28,7 +27,11 @@ function walk(file) {
         });
     }
     else {
-        console.log('f:  ' + file);
+        if (/\.ts$/.test(file)) {
+            console.log('f:  ' + file);
+            var contents = fs.readFileSync(file).toString();
+            console.log(contents);
+        }
     }
 }
 new Converter().convert();
