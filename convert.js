@@ -12,12 +12,6 @@ var Converter = (function () {
     Converter.prototype.convert = function () {
         console.log('converting' + this.src);
         walk(this.src);
-        // fs.readdir(this.src, (err, files) => {
-        //     files.forEach(file => {
-        //             console.log(file);
-        //         }
-        //     );
-        // });
     };
     return Converter;
 }());

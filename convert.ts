@@ -16,12 +16,7 @@ export class Converter{
     convert() {
         console.log('converting' + this.src);
         walk(this.src);
-        // fs.readdir(this.src, (err, files) => {
-        //     files.forEach(file => {
-        //             console.log(file);
-        //         }
-        //     );
-        // });
+
     }
 }
 
