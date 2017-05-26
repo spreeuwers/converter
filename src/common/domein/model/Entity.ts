@@ -3,13 +3,11 @@
  */
 
 
-module app.common.domein.model {
 
-    export interface  IEntity {
+export interface  IEntity {
 
-    }
+}
 
-    export class Entity implements IEntity{
+export class Entity implements IEntity{
 
-    }
 }

@@ -36,7 +36,9 @@ function walk(file: string, prefix?: string){
         upPath = upPath.replace('../','');
         if (/\.ts$/.test(file) && !/converted\.ts$/.test(file)){
             console.log('f:  ' + file + ' ' + upPath);
+
             var contents = fs.readFileSync(file).toString().trim();
+            fs.writeFileSync(file.replace(/\.ts$/,'.ts.bkp'),contents);
             let lines = contents.split(/\n/);
             let imports = lines.filter(f=> /^import/.test(f) );
             //import Entity = app.common.domein.model.Entity;
@@ -65,7 +67,7 @@ function walk(file: string, prefix?: string){
 
             let converted =lines.join('\n').replace(/\}$/,'');
             //console.log(converted);
-            fs.writeFileSync(file.replace(/\.ts$/,'_converted.ts'),converted);
+            fs.writeFileSync(file,converted);
         }
 
     }
