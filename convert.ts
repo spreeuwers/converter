@@ -21,9 +21,10 @@ export class Converter{
 }
 
 function walk(file: string, prefix?: string){
-    let upPath = (prefix !== undefined) ? prefix + '../': '';
+
     let isFolder = fs.lstatSync(file).isDirectory();
     if(isFolder){
+        let upPath = (prefix !== undefined) ? prefix + '../': '';
         console.log('d:  ' + file);
         fs.readdir(file, (err, files) => {
             files.forEach(f => {
@@ -64,7 +65,7 @@ function walk(file: string, prefix?: string){
 
             let converted =lines.join('\n').replace(/\}$/,'');
             //console.log(converted);
-            fs.writeFileSync(file.replace(/\.ts$/,'.converted.ts'),converted);
+            fs.writeFileSync(file.replace(/\.ts$/,'_converted.ts'),converted);
         }
 
     }
