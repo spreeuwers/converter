@@ -21,7 +21,7 @@ export class Converter{
 }
 
 function walk(file: string, prefix?: string){
-    let upPath = (prefix) ? prefix + '../': '';
+    let upPath = (prefix !== undefined) ? prefix + '../': '';
     let isFolder = fs.lstatSync(file).isDirectory();
     if(isFolder){
         console.log('d:  ' + file);
