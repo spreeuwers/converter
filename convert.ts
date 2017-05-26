@@ -15,16 +15,16 @@ export class Converter{
 
     convert() {
         console.log('converting' + this.src);
-        walk(this.src);
+        walk(this.src );
 
     }
 }
 
 function walk(file: string, prefix?: string){
-
+    //console.log(prefix);
+    let upPath = (prefix === undefined) ? '' : prefix + '../';
     let isFolder = fs.lstatSync(file).isDirectory();
     if(isFolder){
-        let upPath = (prefix !== undefined) ? prefix + '../': '';
         console.log('d:  ' + file);
         fs.readdir(file, (err, files) => {
             files.forEach(f => {
@@ -33,9 +33,9 @@ function walk(file: string, prefix?: string){
             );
         });
     } else {
-
+        upPath = upPath.replace('../','');
         if (/\.ts$/.test(file) && !/converted\.ts$/.test(file)){
-            console.log('f:  ' + file);
+            console.log('f:  ' + file + ' ' + upPath);
             var contents = fs.readFileSync(file).toString().trim();
             let lines = contents.split(/\n/);
             let imports = lines.filter(f=> /^import/.test(f) );
