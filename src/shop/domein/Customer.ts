@@ -6,9 +6,7 @@
 import {Entity} from '../../common/domein/model/Entity';
 
 export class Customer extends Entity {
-    private name = '';
+private name = '';
 
-    constructor(){
-        super();
-    }
-}
+constructor(){
+super();

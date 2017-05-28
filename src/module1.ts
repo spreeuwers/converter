@@ -3,5 +3,3 @@
  */
 import {m1} from 'mymod1/myDep';
 export class myClass{
-
-}

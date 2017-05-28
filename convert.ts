@@ -4,20 +4,24 @@
 
 import * as fs from 'fs';
 
-export class Converter{
+var counter = 0;
 
-    private src = __dirname + '/src';
+export class Converter{
+   // private counter = 0;
+    private src = __dirname + '/../meos2a/www/meos';
 
     constructor (){
-        console.log('workking dir:  ' + __dirname);
+        console.log('working dir:  ' + __dirname);
 
     }
 
     convert() {
         console.log('converting' + this.src);
         walk(this.src );
-
+        console.log('Nr off files converted:' + counter);
+        //return this;
     }
+
 }
 
 function walk(file: string, prefix?: string){
@@ -57,6 +61,14 @@ function walk(file: string, prefix?: string){
                       let imp = imports.shift();
                       let mod = imports.shift();
                       mod = upPath + mod.split('.').join('/');
+                      try{
+                          fs.lstatSync(mod).isFile();
+                      } catch (e){
+                          let modName = mod.split('/').reverse()[0];
+                          let modFile = modName.replace(/^I/,'');
+                          mod = mod.replace('/'+ modName, modFile);
+                      }
+
                       line= `import {${imp}} from '${mod}';`;
                       //console.log(line + ' imports:' + imports);
                   }
@@ -67,7 +79,8 @@ function walk(file: string, prefix?: string){
 
             let converted =lines.join('\n').replace(/\}$/,'');
             //console.log(converted);
-            fs.writeFileSync(file,converted);
+            fs.writeFileSync(file, converted);
+            counter++;
         }
 
     }
@@ -75,3 +88,5 @@ function walk(file: string, prefix?: string){
 }
 
 new Converter().convert();
+console.log('Nr off files converted:' + counter);
+
