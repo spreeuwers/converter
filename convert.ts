@@ -37,7 +37,7 @@ function walk(file: string, prefix?: string){
             );
         });
     } else {
-        upPath = upPath.replace('../','');
+        //upPath = upPath.replace('../','');
         if (/\.ts$/.test(file) && !/converted\.ts$/.test(file)){
             console.log('f:  ' + file + ' ' + upPath);
 
