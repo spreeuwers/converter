@@ -66,7 +66,7 @@ function walk(file: string, prefix?: string){
                       } catch (e){
                           let modName = mod.split('/').reverse()[0];
                           let modFile = modName.replace(/^I/,'');
-                          mod = mod.replace('/'+ modName, modFile);
+                          mod = mod.replace('/'+ modName, '/'+ modFile);
                       }
 
                       line= `import {${imp}} from '${mod}';`;
